@@ -1,0 +1,63 @@
+<br>
+<br>
+<section id="alltranslateslist" style="height: 100%">
+<div class="container col-lg-12 col-mg-12 col-xs-12">
+    <legend>Translates &nbsp; <i class="fa fa-files-o" aria-hidden="true"></i></legend>
+    
+        <table class="table table-striped" style="font-size:90%;">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Title</th>
+                    <th>Approximate price</th>
+                    <th>Owner</th>
+                    <th>Language</th>
+                    <th>Status</th>
+                    <th>Remaining time</th>
+                    <th>Translator</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let translate of pagedItems; let i = index" style="margin-bottom: 10px;">
+                    <td>{{i+1}}</td>
+                    <td>
+                        {{translate.title}}
+                    </td>
+                    <td><span class='text-success'>{{translate.price*0.07| currency:'EUR':true}}</span></td>
+                    <td>{{translate.cs_userfname}} {{translate.cs_userlname}}</td>
+                    <td>{{translate.srclang_name}} >> {{translate.destlang_name}}</td>
+                    <td><span [ngClass]="{'text-info':translate.status_name == 'Posted','text-warning':translate.status_name == 'In progress','text-success':translate.status_name == 'Translated' }">{{translate.status_name}}</span></td>
+                    <td><span [ngClass]="{'text-success':time[i].end_date > today,'text-danger':time[i].end_date < today }">{{time[i].getRemainingTime()}}</span></td>
+                    <td><span *ngIf="translate.status_name == 'In progress'" class="text-warning">{{translate.tr_userfname}} {{translate.tr_userlname}}</span>
+                        <span *ngIf="translate.status_name == 'Posted'" class="text-info">In queue</span>
+                        <span *ngIf="translate.status_name == 'Translated'" class="text-success"> {{translate.tr_userfname}} {{translate.tr_userlname}} </span>
+                    </td>
+
+                   
+                    <!--<td><button > Change</button></td>-->
+                    <td><button type="button" class="btn-danger" (click)="removeTranslate(translate)">Delete</button></td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(1)">First</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+            </ul>
+
+</div>
+</section>

@@ -1,0 +1,68 @@
+              
+              <section id="registration" class="col-lg-6 col-mg-6 col-xs-12">
+                 
+                  <div id="regtop">
+
+                      <div class="well">
+
+
+<form class="form-horizontal" (submit)="Register()">
+  <fieldset>
+    <legend> Register now! </legend>
+    <div id="regform" [formGroup]="formgroup" class="form-group">
+
+      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required  formControlName="email" id="inputEmail" placeholder="Email address">
+      </div>
+    
+      <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+      <div class="col-lg-10">
+        <input type="password" class="form-control" required formControlName="pass1" id="inputPassword" placeholder="Password">
+      </div>
+
+      <label for="inputPassword2" class="col-lg-2 control-label">Confirm Password</label>
+      <div class="col-lg-10">
+        <input type="password" class="form-control" required  formControlName="pass2" id="inputPassword2" placeholder="Confirm password">
+      </div>
+
+      <label for="inputFname" class="col-lg-2 control-label">Firstname</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required formControlName="fname" id="inputFname" placeholder="Firstname">
+      </div>
+      <label for="inputLname" class="col-lg-2 control-label">Lastname</label>
+      <div class="col-lg-10">
+        <input type="text" class="form-control" required formControlName="lname" id="inputLname" placeholder="Lastname">
+      </div>
+
+    
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="reset" class="btn btn-default"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;Clear</button>
+        <button type="submit"  class="btn btn-success"><i class="fa fa-share" aria-hidden="true"></i> &nbsp;Register</button>
+         &nbsp;<i  *ngIf="loading" class="fa fa-cog fa-spin fa-2x"></i>
+      </div>
+
+    </div>
+  </fieldset>
+</form>
+
+</div>
+
+    <!--<div class="col-xs-6">
+        <legend> Already has an account ? </legend>
+                      <p class="lead">Registration is <span class="text-success">FREE</span></p>
+                      <ul class="list-unstyled" style="line-height: 2">
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> See all your orders</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Shipping is always free</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Save your favorites</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Fast checkout</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Get a gift <small>(only new customers)</small></li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Holiday discounts up to 30% off</li>
+                      </ul>
+                       <p><button type="submit" href="#" style="margin-bottom: 1rem;" data-toggle="modal" data-target="#login-modal" class="btn btn-info btn-block">Sign me up, now! </button></p>
+            </div>-->
+
+        </div>
+              </section>
+
+              <!--<pre>{{ formgroup.value | json }}</pre>-->

@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "underscore": "registry:dt/underscore#1.8.3+20161123125004",
+    "filesaver": "github:DefinitelyTyped/DefinitelyTyped/FileSaver/FileSaver.d.ts#d21f1bd1fd079bbc18bc88ed71d2be7f5707e33a"
+  },
+  "dependencies": {
+    "chart.js": "registry:npm/chart.js#2.1.4+20160615174920"
+  }
+}

@@ -1,0 +1,160 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">{{user.postionname | uppercase}}</a> 
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+
+
+      
+        <li><a href="profile#contact"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>&nbsp; Feedback</a></li>
+     
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{user.email}}<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a routerLink="/profile"><i class="fa fa-id-card-o fa-lg" aria-hidden="true"></i>&nbsp; Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="" (click)="logout()"><i class="fa fa-power-off fa-lg" aria-hidden="true"></i>&nbsp; Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul *ngIf="user.postionname == 'user'" class="nav navbar-nav navbar-right">
+        <li><a routerLink="/translates/list" ><i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>&nbsp; Catalog</a></li>
+           <li><a routerLink="/translates/create" ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp; New order</a></li>
+      </ul>
+
+      <ul *ngIf="user.postionname == 'translator'" class="nav navbar-nav navbar-right">
+        <li><a routerLink="/translates/manage" ><i class="fa fa fa-info-circle fa-lg" aria-hidden="true"></i>&nbsp; My Statistics</a></li>
+        <li><a routerLink="/translates/get-new-order" ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>&nbsp; Get new order</a></li>
+        <li><a routerLink="/translates/working-list" ><i class="fa fa-list-alt fa-lg" aria-hidden="true"></i>&nbsp;Working list</a></li>
+        
+      </ul>
+      
+      <ul *ngIf="user.postionname == 'administrator'" class="nav navbar-nav navbar-right">
+        <li><a routerLink="/translates/administration" ><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Statistics</a></li>
+           <li ><a routerLink="/translates/admin-translates" ><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp; Translates</a></li>
+           <li ><a routerLink="/translates/admin-users" ><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp; Users</a></li>
+           <li><a routerLink="/translates/translator-registration" ><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp; New translator</a></li>
+      </ul>
+  
+    </div>
+  </div>
+</nav>
+
+<section id="userprofile" class="col-lg-12 col-mg-12 col-xs-12" style="height: 100%">
+<div class="container-fluid" style="margin-top: 2rem;">
+   <legend>My profile</legend>
+  <div class="row-fluid">  
+        <div class="col-lg-2 col-mg-2 col-xs-3" >
+              <i class="fa fa-user-circle-o fa-5x" aria-hidden="true"></i>
+        </div>
+        
+        <div *ngIf="!editprofile" class="col-lg-8 col-mg-8 col-xs-7" style="margin-top: -2rem;">
+            <h3>{{user.first_name | uppercase }} {{user.last_name | uppercase}}</h3> 
+            <h5>Email:&nbsp; {{user.email}} </h5>
+            <h5>Status:&nbsp; <span class="text-info">{{user.postionname | uppercase }}</span> </h5>
+            <h5>Verified:&nbsp; <span class="text-success">{{user.emailconfirm}} &nbsp;<i class="fa fa-check-square-o" aria-hidden="true"></i></span> </h5>
+             <div *ngIf="editpwd">
+                <h3>Setup new password:</h3>
+                <form class="form-horizontal" style="width:80%">
+                  <div [formGroup]="group2" class="form-group"> 
+                    <label class="control-label" for="pass1"><h5>New password:</h5></label>
+                    <input type="password" formControlName="pass1" class="form-control" id="pass2">
+
+                    <label class="control-label" for="pass2"><h5>Confirm:</h5></label>
+                    <input type="password" formControlName="pass2" class="form-control" id="pass2">
+                    <div *ngIf="!pwdAreEqual() || !group2.valid"><p class="text-danger">Password mismatch, must contains 6 symbols and at least 1 Alphabet and 1 Number.</p></div>
+                    <div *ngIf="pwdAreEqual() && group2.valid"><p class="text-success">Password is correct!</p></div>   
+                  </div>
+                  </form>
+            </div>
+        </div>
+
+        <div *ngIf="editprofile" class="col-lg-8 col-mg-8 col-xs-7" style="margin-top: -2rem;">
+          <h3>Modify personal info</h3>
+          <form class="form-horizontal" style="width:80%">
+            <div [formGroup]="group" class="form-group"> 
+              <label class="control-label" for="inputDefault"><h5>Email:</h5></label>
+              <input type="email" formControlName="email" class="form-control" id="emailin">
+              <div *ngIf="!group.controls['email'].valid"><p class="text-danger">Email mismatch.</p></div>
+
+              <label class="control-label" for="inputDefault"><h5>Firstname:</h5></label>
+              <input type="text" formControlName="firstname" class="form-control" id="fnamein">
+              <div *ngIf="!group.controls['firstname'].valid"><p class="text-danger">Invalid firstname.</p></div>
+
+              <label class="control-label" for="inputDefault"><h5>Lastname:</h5></label>
+              <input type="text" formControlName="lastname" class="form-control" id="lnamein">
+              <div *ngIf="!group.controls['lastname'].valid"><p class="text-danger">Invalid lastname.</p></div>
+              
+            </div>
+            </form>
+
+        </div>
+
+       <div class="col-lg-2 col-mg-2 col-xs-2">
+         <div class="btn-group">
+                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bars" aria-hidden="true"></i> &nbsp; Options 
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0);" (click)="modify()"><i class="fa fa-wrench" aria-hidden="true"></i>&nbsp; Modify data</a></li>
+                    <li><a href="javascript:void(0);" (click)="changepass()"><i class="fa fa-wrench" aria-hidden="true"></i>&nbsp; Change password</a></li>
+                </ul>
+            </div>
+             <button *ngIf="editprofile" (click)="updateProfile()" style="margin-top: 1rem;" type="button" class="btn btn-primary">Save changes</button>
+             <button *ngIf="editpwd"  (click)="updatePwd()" style="margin-top: 1rem;" type="button" class="btn btn-primary">Apply</button>
+             <button *ngIf="editpwd || editprofile" (click)="back()"  style="margin-top: 1rem;" type="button" class="btn btn-primary">Back</button>
+       </div>
+
+  </div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<contact></contact>
+
+<section id="footer" class="col-lg-12 col-mg-12 col-xs-12">
+<footer id="footer" > 
+      <div class="well">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright © Your Website 2015</span>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="#">Privacy Policy</a>
+                        </li>
+                        <li><a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
+</section>
+
+
+

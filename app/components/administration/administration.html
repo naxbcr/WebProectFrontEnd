@@ -1,0 +1,43 @@
+<section id="administation" style="height: 100%">
+    <br>
+    <br>
+   <div class="container">
+   <legend>WebApp Statistics</legend>
+
+   <div style="display: block" class="col-lg-4 col-md-6 col-xs-12">
+    <blockquote>
+    <p>Global user statistics</p>
+    </blockquote>
+   <canvas baseChart 
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+  </div>
+ <div class="col-lg-4 col-md-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="text-warning">Global statistics</span></div>
+        <div class="panel-body">
+            <p>Total users: {{totalusers}}</p>
+            <p>Not reedem registration users: {{totalnrd}}</p>
+            <p>Total orders: {{totalorders}}</p>
+            <p>Expired orders: {{totalexpired}}</p>
+        </div>
+        </div>
+ </div>
+
+ <div style="display: block" class="col-lg-4 col-md-6 col-xs-12">
+     <blockquote>
+    <p>Global orders statistics</p>
+    </blockquote>
+  <canvas baseChart
+              [data]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="chartHovered2($event)"
+              (chartClick)="chartClicked2($event)"></canvas>
+ </div>
+  
+   </div>
+</section>

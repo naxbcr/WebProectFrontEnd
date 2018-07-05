@@ -1,0 +1,32 @@
+html, body {
+    margin: 0;
+    height:100%;
+    width:100%;
+    padding:0;
+    font-size: 16px;
+}
+
+section {
+    display: block;
+    height:auto; 
+    
+    /*height: 100%;*/
+    width:100%;
+    padding: 40px;
+    box-sizing:border-box;
+}
+
+.navbar-brand{
+      font-size: x-large;
+    }
+
+.navbar-nav a {
+        font-size: medium;
+    }
+
+
+
+
+
+
+

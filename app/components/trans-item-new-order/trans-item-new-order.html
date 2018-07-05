@@ -1,0 +1,17 @@
+  <div class="panel" [ngClass]="{'panel-info':trans.status_name == 'Posted','panel-warning':trans.status_name == 'In progress','panel-success':trans.status_name == 'Translated' }">
+ 
+      <div class="panel-heading">
+    <h4 class="list-group-item-heading">{{trans.title}} <div style="float: right;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Language: {{trans.srclang_name}} >>> {{trans.destlang_name}}</div></h4>
+      </div>
+        <div class="panel-body">
+    <p class="list-group-item-text" >Created: {{trans.created_date | date: 'dd/MM/yyyy HH:mm'}}</p>
+    <p class="list-group-item-text" *ngIf="trans.update_date" >Last update: {{trans.update_date | date: 'dd/MM/yyyy HH:mm'}}</p>
+    <p class="list-group-item-text" >Status: <span [ngClass]="{'text-info':trans.status_name == 'Posted','text-warning':trans.status_name == 'In progress','text-success':trans.status_name == 'Translated' }"> {{trans.status_name}}</span></p>
+    <p class="list-group-item-text" >Client:<span class="text-warning"> {{trans.cs_userfname}} {{trans.cs_userlname}}</span></p>
+    <p class="list-group-item-text" *ngIf="trans.price" >Approximate gain:<span class="text-success"> {{trans.price*0.07| currency:'EUR':true }}</span></p>
+    <p class="list-group-item-text" >Time left: <span [ngClass]="{'text-success':time.days > 3,'text-warning':time.days < 3 && time.days > 0,'text-danger':time.days < 0}"> {{time.getRemainingTime()}}</span></p>
+
+              <a [routerLink]="['/translates/get-new-order-item', trans.id]" class="btn" [ngClass]="{'btn-info':trans.status_name == 'Posted','btn-warning':trans.status_name == 'In progress','btn-success':trans.status_name == 'Translated' }" [translate]="trans"  style="float: right;">Details</a>
+        </div>
+ 
+  </div>

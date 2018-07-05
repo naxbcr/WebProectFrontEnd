@@ -1,0 +1,159 @@
+<section id="translatelate-info" class="col-lg-12 col-mg-12 col-xs-12" style="min-height: 100%">
+<div class="container" style="padding-top: 2rem;">
+  
+  <div *ngIf="translate">
+
+<!-- Размеры выставлять незабывай нормальные иначе при сворачивании адаптивная верстка ломается нахрен -->
+  <div class="col-lg-8 col-mg-8 col-xs-12"> 
+    <div class="panel" [ngClass]="{'panel-info':translate.status_name == 'Posted','panel-warning':translate.status_name == 'In progress','panel-success':translate.status_name == 'Translated' }">
+      <div class="panel-heading"><h3>{{translate.title}}      </h3></div>
+      <div class="panel-body">
+        <div><p> Created: {{translate.created_date | date: 'dd/MM/yyyy HH:mm' }}</p></div>
+        <div *ngIf="translate.update_date"><p> Last updated:<span class="text-danger"> {{translate.update_date | date: 'dd/MM/yyyy HH:mm' }}</span></p></div>
+        <div><p> Translate: <span class="text-warning">{{translate.srclang_name}}</span> &nbsp;&nbsp;<i class="fa fa-long-arrow-right" aria-hidden="true">&nbsp;&nbsp;</i> <span class="text-info">{{translate.destlang_name}}</span></p></div>
+        <div><p> Current status: <span [ngClass]="{'text-info':translate.status_name == 'Posted','text-warning':translate.status_name == 'In progress','text-success':translate.status_name == 'Translated' }"> {{translate.status_name}}</span> </p></div>
+        <!--<div *ngIf="translate.id_translator"><p> Current translator: {{translate.tr_userfname}} {{translate.tr_userlname}}</p></div>-->
+        <div><p> Client:<span class="text-warning"> {{translate.cs_userfname}} {{translate.cs_userlname}}</span></p></div>
+
+        <div><p> Type: {{ translate.typename }}</p></div>
+        <div *ngIf="translate.decription"><p> Description: {{ translate.decription }}</p></div>
+
+
+        <div><p> Deadline: <span [ngClass]="{'text-success':end_date > today,'text-danger':end_date < today }">{{ translate.end_date | date: 'dd/MM/yyyy HH:mm'}}   &nbsp;&nbsp; &nbsp;   remaining time: {{days}}d {{hours}}h {{minutes}}min </span> </p></div>
+        <div><p> Source File:&nbsp; <u>{{translate.link_customer}}</u> &nbsp;&nbsp;&nbsp; <button class="btn btn-success btn-xs" (click)="downloadFile(translate.link_customer)">Download </button></p></div>
+        <div *ngIf="translate.price"><p> Approximate gain:<span class="text-success"> {{translate.price*0.07 | currency:'EUR':true }}</span> &nbsp;&nbsp; <span class="text-warning">  Warning! Price may vary depending on text size.</span></p></div>
+        <div *ngIf="translate.link_translator"><p>Translated File:&nbsp; <u>{{translate.link_translator}}</u>&nbsp;&nbsp;&nbsp; <button class="btn btn-danger btn-xs" (click)="downloadFile(translate.link_translator)">Download </button></p></div>
+        
+    
+        <div class="" *ngIf="translate.translate_status ==  3 || translate.translate_status == 4">
+          <input type="file" required class="form-control" (change)="onFileChange()"  name="single" ng2FileSelect [uploader]="uploader" />
+          <table class="table">
+                                <thead *ngIf="uploader.queue.length > 0">
+                                <tr>
+                                    <th width="50%">Name</th>
+                                    <th>Size</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody *ngIf="uploader.queue.length > 0">
+                                <tr *ngFor="let item of uploader.queue">
+                                    <td><strong>{{ item.file.name }}</strong></td>
+                                    <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>
+                                    <td>
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs"
+                                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
+                                        <button type="button" class="btn btn-warning btn-xs"
+                                                (click)="item.cancel()" [disabled]="!item.isUploading">
+                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs"
+                                                (click)="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> Remove
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div *ngIf="uploader.queue.length > 0">
+                                    Queue progress:
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                    </div>
+                                </div>  
+    </div>
+        
+      </div>
+      <div class="panel-footer">
+            <!--<button type="button" class="btn btn-default">Refresh</button>-->
+            <button type="button" *ngIf="translate.status_name == 'Posted'" (click)="acceptTranslate()" class="btn btn-success">Apply</button>
+            <div *ngIf="translate.status_name == 'In progress'"><button type="submit"  (click)="saveFile()" class="btn btn-success">Complete</button> <i *ngIf="loading" class="fa fa-cog fa-spin fa-2x fa-fw"></i></div>
+            <div *ngIf="translate.status_name == 'Translated'"><button type="submit" (click)="saveFile()" class="btn btn-success">Modify</button> <i *ngIf="loading" class="fa fa-cog fa-spin fa-2x fa-fw"></i></div>
+
+            <!--<button *ngIf="status == administrator" type="button" class="btn btn-danger" (click)="deleteTranslate()">Remove</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Размеры выставлять незабывай нормальные иначе при сворачивании адаптивная верстка ломается нахрен -->
+  <div class="col-lg-4 col-mg-4 col-xs-12">
+    
+     <form class="form-horizontal" (submit)="addComment()">
+     <div [formGroup]="form" class="form-group">
+            <div class="panel panel-default">
+              <div class="panel-heading"><h3>Leave a comment</h3></div>
+              <div class="panel-body">
+                <textarea formControlName="comment" required minlength="2" class="form-control animated" #commentdescriptions placeholder="Make a comment"></textarea>
+
+              </div>
+              <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary">Send</button>
+              </div>
+            </div>
+      </div>
+      </form>
+  </div>
+</div>
+
+
+
+        
+
+
+</section>
+<br>
+<br>
+<br>
+<section id="comment-section" class="col-lg-12 col-mg-12 col-xs-12" style="height: 100%">
+
+<div class="container">
+      <legend>Comments</legend>
+     <div *ngIf="comments.length < 1"><p class="text-primary">Currently there is no comments.</p></div>
+     <div *ngIf="comments"  class="list-group">
+        <div *ngFor="let commentary of comments; let i = index" class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Author: {{commentary.userfname}} {{commentary.userlname}} <div style="float: right;"> <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp; {{commentary.created_date | date: 'dd/MM/yyyy HH:mm'}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button *ngIf="commentary.id_user == id_user" type="button" (click)="remove(commentary.id,i)" class="btn btn-danger btn-sm"><i class="fa fa-times" aria-hidden="true"></i></button> </div></h3>
+        </div>
+        <div class="panel-body">
+          {{commentary.comment}}
+        </div>
+        </div>
+      
+    </div>
+  
+</div>
+
+</section>
+
+
+
+
+
+
+
+<script>
+    		$(function(){
+				$('.normal').autosize();
+				$('.animated').autosize({append: "\n"});
+			});
+</script>
+  
+ 
+

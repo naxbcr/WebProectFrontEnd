@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>E-Translate project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 1. Load libraries -->
+
+    <base href="/">
+
+     <!-- Polyfill for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+    
+    <!-- all angular dependencies and other 3rd party -->
+    <script src="node_modules/file-saver/FileSaver.js"></script>
+
+    
+    <script src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+    <!-- <script src="ng-file-upload-shim(.min).js"></script>
+    <script src="ng-file-upload(.min).js"></script>-->
+    
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://bootswatch.com/superhero/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="styles.css">
+      <link rel="stylesheet" type="text/css" href="loader.css">
+      <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
+    
+  </head>
+
+
+
+  <!-- 3. Display the application -->
+  <body>
+
+        
+        <my-app>
+          <div class="loader">
+          <div class="inner one"></div>
+          <div class="inner two"></div>
+          <div class="inner three"></div>
+          </div>
+        </my-app>
+        
+
+
+  </body>
+</html>

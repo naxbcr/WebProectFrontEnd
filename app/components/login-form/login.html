@@ -1,0 +1,53 @@
+
+
+<section id="login" class="col-lg-6 col-mg-6 col-xs-12">
+<div id="logtop"> 
+  <form class="form-horizontal" (submit)="signIn()">
+  <fieldset>
+    <legend> Already has an account ? </legend>
+    <div [formGroup]="mygroup" class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-10">
+       
+        <input id="email" class="form-control" formControlName="email" type="text" required minlength="6" #email name="email" class="form-control"   placeholder="Email">
+      
+      </div>
+   
+      <label for="inputPassword" class="col-lg-2 control-label" >Password</label>
+      <div class="col-lg-10">
+        
+        <input id="password" class="form-control" formControlName="password" type="password" required minlength="6" #password name="password" class="form-control"  placeholder="Password">
+        <div class="checkbox">
+          <label>
+            <!--<input type="checkbox"> Remember me-->
+          </label>
+        </div>
+        
+      </div>
+    
+      <div class="col-lg-10 col-lg-offset-2">
+        <button [disabled]="loading" type="submit" class="btn btn-info"><i class="fa fa-sign-in" aria-hidden="true"></i> &nbsp;Log in</button> 
+        &nbsp;<i  *ngIf="loading" class="fa fa-cog fa-spin fa-2x"></i>
+      </div>
+    </div>
+  </fieldset>
+</form>
+      
+     
+      </div>
+
+ <div class="col-xs-12 col-md-8 col-lg-8">
+        <legend>  <p class="lead">Registration is <span class="text-success">FREE</span></p> </legend>
+                     
+                      <ul class="list-unstyled" style="line-height: 2">
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> See all your orders</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Shipping is always free</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Save your favorites</li>
+                          <li><span class="glyphicon glyphicon-ok text-success"> </span> Fast checkout</li>
+                      </ul> 
+            </div>
+
+      </section>
+   
+<!--<pre>{{ mygroup.value | json }}</pre>-->
+
